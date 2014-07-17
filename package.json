@@ -13,6 +13,7 @@
   "author": "John van de Water",
   "license": "MIT",
   "dependencies": {
+    "jade": "^1.4.2",
     "jade-amd": "^0.2.2",
     "log4js": "^0.6.15"
   }
