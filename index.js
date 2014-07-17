@@ -1,16 +1,18 @@
-var jadeAmd = require('jade-amd');
+var jade = require('jade'),
+	toAmdString = require('jame-amd').toAmdString,
+	logger = require('log4js').getLogger();
 
 var createJadeAmdPreprocessor = function(logger, basePath) {
-	var log = logger.create('preprocessor.jade')
+	var log = logger.create('preprocessor.jadeAmd')
 
 	return function(content, file, done) {
 		file.path = file.originalPath + '.jade.js';
 
 		var processed = null
 		try {
-			processed = jadeAmd.compile(content)({});
+			processed = toAmdString(jade.compile(content)({}));
 		} catch(e) {
-			log.error('%s\n  at %s', e.message, file.originalPath);
+			logger.error('%s\n  at %s', e.message, file.originalPath);
 		}
 
 		done(processed);
