@@ -1,0 +1,15 @@
+{
+  "name": "karma-jade-amd-preprocessor",
+  "version": "0.0.0",
+  "description": "A Karma preprocessor for jade files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "John van de Water",
+  "license": "MIT",
+  "dependencies": {
+    "jade-amd": "^0.2.2",
+    "log4js": "^0.6.15"
+  }
+}
