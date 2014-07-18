@@ -1,20 +1,21 @@
 var jade = require('jade'),
-	toAmdString = require('jame-amd').toAmdString,
-	logger = require('log4js').getLogger();
+	toAmdString = require('jade-amd').toAmdString;
 
 var createJadeAmdPreprocessor = function(logger, basePath) {
-	var log = logger.create('preprocessor.jadeAmd')
+	var log = logger.create('preprocessor.jade-amd')
 
 	return function(content, file, done) {
-		file.path = file.originalPath + '.jade.js';
+		file.path = file.originalPath + '.js';
 
 		var processed = null
 		try {
-			processed = toAmdString(jade.compile(content)({}));
+			var compiled = jade.compileClient(content, {debug: false, pretty: false}).toString();
+
+			processed = 'define(\'' + file.originalPath.split('src/').pop() + '\', [], function() {' + ' return ' + compiled + '});';
+
 		} catch(e) {
 			logger.error('%s\n  at %s', e.message, file.originalPath);
 		}
-
 		done(processed);
 	}
 }
@@ -22,6 +23,6 @@ var createJadeAmdPreprocessor = function(logger, basePath) {
 createJadeAmdPreprocessor.$inject = ['logger', 'config.basePath'];
 
 // publish
-module.eports = {
-	'preprocessor:jadeAmd': ['factory', createJadeAmdPreprocessor]
+module.exports = {
+	'preprocessor:jade-amd': ['factory', createJadeAmdPreprocessor]
 };
